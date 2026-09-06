@@ -8,6 +8,6 @@
         <meta-data android:name="xposedmodule" android:value="true"/>
         <meta-data android:name="xposeddescription" android:value="Enable passkeys in WebView-shell browsers via the official androidx.webkit switch (disable to revert)"/>
         <meta-data android:name="xposedminversion" android:value="93"/>
-        <meta-data android:name="xposedscope" android:value="mark.via.gp"/>
+        <meta-data android:name="xposedscope" android:value="mark.via.gp|mark.via"/>
     </application>
 </manifest>

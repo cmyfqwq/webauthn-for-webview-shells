@@ -32,7 +32,8 @@ public class MainHook implements IXposedHookLoadPackage {
     /** Add package names of WebView-shell browsers here (verify by pulling the
      *  APK and checking its real label — never guess from a package name). */
     private static final List<String> TARGETS = Arrays.asList(
-            "mark.via.gp"            // Via 7.3.3 — tested, works
+            "mark.via.gp",           // Via GP 7.3.3 — tested, works
+            "mark.via"               // Via CN build
     );
 
     private static volatile boolean announced = false;
