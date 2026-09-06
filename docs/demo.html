@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>passkey test</title>
+<style>body{font-family:sans-serif;font-size:32px;padding:24px;background:#111;color:#eee}button{width:100%;font-size:40px;margin:16px 0}#out{white-space:pre-wrap;font-size:26px}
+</style>
+</head>
+<body>
+<h1>PASSKEY TEST</h1>
+<div id="out"></div>
+<button id='create' style="width:100%;height:200px;margin:20px 0;display:visible">Create Passkey</button>
+<script>
+const out=document.getElementById('out');
+const lines=[];
+function log(m){lines.push(new Date().toISOString().slice(11,20)+':'+m);out.textContent=lines.join('\n')}
+window.addEventListener('load',()=>log('PAGE_LOADED; PublicKeyCredential='+(window.PublicKeyCredential?'yes':'no')));
+function buf(){const c=new Uint8Array(32);crypto.getRandomValues(c);return c}
+async function docreate(){
+ try{
+ log('creating…');
+ const r=await navigator.credentials.create({publicKey:{
+   challenge:buf(),rp:{name:'local-test'},
+   user:{id:crypto.getRandomValues(new Uint8Array(16)),name:'cmyfqwq',displayName:'cmyfqwq'},
+   pubKeyCredParams:[{type:'public-key',alg:-7},{type:'public-key',alg:-257}],
+   authenticatorSelection:{residentKey:'required',userVerification:'required'}
+ }});
+ log('CREATE_OK id='+String(r.id).slice(0,18));
+ }catch(e){log('CREATE_ERR '+(e&&e.name)+' :: '+(e&&e.message))}
+}
+document.getElementById('create').onclick=docreate;
+setTimeout(docreate, 2000);
+</script>
+</body>
+</html>
