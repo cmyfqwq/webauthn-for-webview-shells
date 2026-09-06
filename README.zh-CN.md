@@ -92,6 +92,9 @@ pwsh build.ps1   # → build/WebAuthn-Shell-1.0.0.apk
 **为什么不直接找浏览器官方？**
 请务必去提喵——每个浏览器加 3 行原生就好了，那是本模块最理想的下场。这个模块的存在就是为了在官方补齐之前先把洞堵上。
 
+**小米 HyperOS 4.0 / Android 17 机型会怎样？**
+实测：hook 正常接通，但系统默认 provider（小米密码本 `com.miui.passwords`）对第三方 WebView 的 WebAuthn 请求会抛 `NotReadableError: unknown error talking to the credential manager`，密码本内查无写入记录喵 —— 这是小米侧 provider 未完整实现/未放行的问题（同机 Chrome 走 Google 密码管理工具可正常创建喵）。等小米在设置里放出 passkey 提供方切换或修复后，HyperOS 4 上即可恢复喵；欢迎把此结论反馈给小米喵。
+
 ## ☕ Credits
 
 - 基于 [`androidx.webkit`](https://developer.android.com/identity/sign-in/credential-manager-webview) 的 WebView–Credential Manager 官方桥接
