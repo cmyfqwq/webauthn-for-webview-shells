@@ -1,0 +1,4 @@
+build/
+module.ks
+deps/*.aar
+*.tgz
