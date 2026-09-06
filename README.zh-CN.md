@@ -49,7 +49,8 @@ graph LR
 
 | 浏览器 | 状态 |
 | --- | --- |
-| **Via**（`mark.via.gp` 7.3.3） | ✅ 已实测——创建 + 验证全程正常 |
+| **Via GP**（`mark.via.gp` 7.3.3） | ✅ 已实测——创建 + 验证全程正常 |
+| **Via 国行**（`mark.via`） | 默认接线，等实测反馈喵 |
 | *其他所有壳* | ⚠️ 机制适用（WebView ≥ 124），但**默认未接线**——把包名加进 [`MainHook.java`](src/io/github/cmyfqwq/webauthnshell/MainHook.java) 的 `TARGETS`，重新构建即可 |
 
 ## 🧱 技术堆栈

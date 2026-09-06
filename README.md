@@ -61,7 +61,8 @@ graph LR
 
 | Browser | Status |
 | --- | --- |
-| **Via** (`mark.via.gp` 7.3.3) | ✅ tested — create + verify passkeys live |
+| **Via GP** (`mark.via.gp` 7.3.3) | ✅ tested — passkey **create + verify** work with the native password manager |
+| **Via CN** (`mark.via`) | wired & installed by default; needs nothing but your own test |
 | *Everything else* | ⚠️ supports this mechanism (WebView ≥ 124), but **not wired by default** — add the package name to `TARGETS` in [`MainHook.java`](src/io/github/cmyfqwq/webauthnshell/MainHook.java), rebuild, and try it out |
 
 ## 🚀 Install
