@@ -65,6 +65,20 @@ graph LR
 | **Via CN** (`mark.via`) | wired & installed by default; needs nothing but your own test |
 | *Everything else* | ⚠️ supports this mechanism (WebView ≥ 124), but **not wired by default** — add the package name to `TARGETS` in [`MainHook.java`](src/io/github/cmyfqwq/webauthnshell/MainHook.java), rebuild, and try it out |
 
+## 🕓 Compatibility: is it even needed on your device?
+
+**Maybe not — check before reporting "no effect".** The module exists because WebView used to keep WebAuthn off by default unless the host opted in. Newer WebView / OS builds have started flipping that default themselves:
+
+| Your device situation | What you'll see |
+| --- | --- |
+| **Android ≤ 16, WebView ~124–13x** (historical default: opt-in required) | ✅ module's sweet spot — without it, shell browsers report "no platform authenticator" |
+| **Android 16/17 with a recent WebView** (observed: HyperOS 4.0.0.24, Android 17, WebView past 124) | ⚠️ WebView may already enable `navigator.credentials` for shells by default — the module becomes a **no-op redundancy** on those devices; passkey success there comes from the credential provider side, not this hook |
+| Shell that calls the androidx switch itself | ✅ any version — module is redundant by design (that's the goal) |
+
+Quick self-check: disable the module in LSPosed, force-stop the browser, retry passkeys. If they still work, your device no longer needs this module — nothing is broken.
+
+Also note the provider side: on Xiaomi HyperOS 4 the default credential provider may still reject WebView-originated requests (`NotReadableError`); see [FAQ](#-faq) / [中文 FAQ](README.zh-CN.md#-faq).
+
 ## 🚀 Install
 
 1. Requires: **rooted device + LSPosed**, Android 7.0+, system WebView **124+**

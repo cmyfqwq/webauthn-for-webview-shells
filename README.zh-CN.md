@@ -84,6 +84,20 @@ pwsh build.ps1   # → build/WebAuthn-Shell-1.0.0.apk
 
 想加浏览器？改 [`MainHook.java`](src/io/github/cmyfqwq/webauthnshell/MainHook.java) 里的 `TARGETS` 加包名，重建喵。
 
+## 🕓 兼容性：你的设备还需要它吗？
+
+**先自查再报"没效果"喵。** 本模块存在的前提是"WebView 默认关闭 WebAuthn、宿主必须自己 opt in"——而新的 WebView/系统版本已经开始自己翻这个默认开关了：
+
+| 设备情况 | 实际表现 |
+| --- | --- |
+| **Android ≤ 16，WebView 约 124–13x**（历史上需要壳主动 opt in） | ✅ 本模块的目标区间——不装的话壳浏览器报"没有平台验证器" |
+| **Android 16/17 + 新版 WebView**（实测：HyperOS 4.0.0.24 / Android 17） | ⚠️ WebView 可能已默认对壳放行 `navigator.credentials`，模块在这些设备上变成**冗余空转**；那边的 passkey 成功是凭据提供方侧的功劳，与本 hook 无关 |
+| 壳自己就调用 androidx 开关 | ✅ 任何版本——模块按设计变得多余（这正是理想结局） |
+
+快速自查：在 LSPosed 里停用本模块 → 强杀浏览器 → 重试 passkey。还能用，说明你的设备已经不需要它了，不是坏了喵。
+
+另外注意提供方一侧：小米 HyperOS 4 的默认凭据提供方可能仍拒绝 WebView 发起的请求（`NotReadableError`），见下方 FAQ。
+
 ## 🧭 FAQ
 
 **这算漏洞利用吗？**
