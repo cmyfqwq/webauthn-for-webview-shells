@@ -33,11 +33,15 @@ Remove-Item $stage -Recurse -Force -ErrorAction SilentlyContinue
 New-Item -ItemType Directory -Force "$stage\assets" | Out-Null
 tar -xf "$build\base.apk" -C $stage
 Copy-Item "$dir\assets\xposed_init" "$stage\assets\xposed_init" -Force
+# LSPosed reads the module's *recommended scope* from META-INF/xposed/scope.list —
+# mirror MainHook.TARGETS here so the manager pre-checks the shells for you.
+New-Item -ItemType Directory -Force "$stage\META-INF\xposed" | Out-Null
+Set-Content -Path "$stage\META-INF\xposed\scope.list" -Value "mark.via.gp","mark.via" -Encoding Ascii -NoNewline:$false
 Get-ChildItem "$build\dex" -Filter *.dex | Copy-Item -Destination $stage -Force
 Push-Location $stage
 try {
   $dexList = (Get-ChildItem . -Filter *.dex | Select-Object -ExpandProperty Name)
-  tar --format zip -cf packed.apk AndroidManifest.xml $dexList 'assets'
+  tar --format zip -cf packed.apk AndroidManifest.xml $dexList 'assets' 'META-INF/xposed'
 } finally { Pop-Location }
 
 Write-Host '[5/6] zipalign'
